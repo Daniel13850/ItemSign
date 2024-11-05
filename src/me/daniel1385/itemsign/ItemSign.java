@@ -44,6 +44,7 @@ public class ItemSign extends JavaPlugin {
         }
         getCommand("sign").setExecutor(new SignCommand(this));
         getCommand("unsign").setExecutor(new UnsignCommand(this));
+        Metrics metrics = new Metrics(this, 23808);
     }
 
     public String getPrefix() {
