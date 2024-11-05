@@ -150,10 +150,10 @@ public class SignCommand implements CommandExecutor {
 		if(p.hasPermission("itemsign.format.italic")) {
 			text = text.replace("&o", "§o");
 		}
-		text = text.replace("&r", "§r");
+		text = text.replace("&r", "§r§8");
 		lines.add(text);
 		for(String s : lines) {
-			lore.add(s);
+			lore.add("§8" + s);
 		}
 		String date = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
 		String last = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("format").replace("{PLAYER}", p.getName()).replace("{DATE}", date));
