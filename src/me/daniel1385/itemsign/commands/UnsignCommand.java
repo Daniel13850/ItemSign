@@ -44,7 +44,7 @@ public class UnsignCommand implements CommandExecutor {
 			p.sendMessage(plugin.getPrefix() + "§cDas Item ist nicht signiert!");
 			return false;
 		} else if(!data.getPlayerUUID().equals(p.getUniqueId().toString())) {
-			if(!p.hasPermission("itemsign.unsignall")) {
+			if(!p.hasPermission("itemsign.unsign.all")) {
 				p.sendMessage(plugin.getPrefix() + "§cDie Signatur ist nicht von dir!");
 				return false;
 			}
