@@ -63,26 +63,7 @@ public class SignCommand implements CommandExecutor {
 				return false;
 			}
 		}
-		ItemMeta meta = item.getItemMeta();
-		List<String> lore = meta.getLore();
-		List<String> lines = new ArrayList<>();
-		if(lore == null) {
-			lore = new ArrayList<>();
-		} else if(data != null) {
-			lines = data.getLines();
-			PersistentDataContainer cont = meta.getPersistentDataContainer();
-			NamespacedKey keyLast = new NamespacedKey(plugin, "signLast");
-			int start = lore.indexOf(cont.get(keyLast, PersistentDataType.STRING))-(data.getLines().size()+1);
-			if(start >= 0) {
-				lore.remove(start);
-				for(int i = 0; i < data.getLines().size(); i++) {
-					lore.remove(start);
-				}
-				lore.remove(start);
-			}
-		}
-		lore.add(" ");
-		StringBuilder builder = new StringBuilder(args[0]);
+		StringBuilder builder = new StringBuilder("§8" + args[0]);
 		for(int i = 0; i < args.length; i++) {
 			if(i == 0) {
 				continue;
@@ -157,9 +138,32 @@ public class SignCommand implements CommandExecutor {
 			text = text.replace("&o", "§o");
 		}
 		text = text.replace("&r", "§r§8");
+		if(ChatColor.stripColor(text).length() > 128) {
+			p.sendMessage(plugin.getPrefix() + "§cDer Text ist zu lang.");
+			return false;
+		}
+		ItemMeta meta = item.getItemMeta();
+		List<String> lore = meta.getLore();
+		List<String> lines = new ArrayList<>();
+		if(lore == null) {
+			lore = new ArrayList<>();
+		} else if(data != null) {
+			lines = data.getLines();
+			PersistentDataContainer cont = meta.getPersistentDataContainer();
+			NamespacedKey keyLast = new NamespacedKey(plugin, "signLast");
+			int start = lore.indexOf(cont.get(keyLast, PersistentDataType.STRING))-(data.getLines().size()+1);
+			if(start >= 0) {
+				lore.remove(start);
+				for(int i = 0; i < data.getLines().size(); i++) {
+					lore.remove(start);
+				}
+				lore.remove(start);
+			}
+		}
+		lore.add(" ");
 		lines.add(text);
 		for(String s : lines) {
-			lore.add("§8" + s);
+			lore.add(s);
 		}
 		String date = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
 		String last = translateAllCodes(plugin.getConfig().getString("format").replace("{PLAYER}", p.getName()).replace("{DATE}", date));
