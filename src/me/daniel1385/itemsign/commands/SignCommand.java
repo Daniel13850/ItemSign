@@ -4,10 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import me.daniel1385.itemsign.ItemSign;
 import me.daniel1385.itemsign.SignatureData;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
@@ -18,6 +19,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class SignCommand implements CommandExecutor {
 	private ItemSign plugin;
@@ -33,7 +36,7 @@ public class SignCommand implements CommandExecutor {
 			return false;
 		}
 		Player p = (Player) sender;
-		if(!(p.hasPermission("itemsign.sign") || p.hasPermission("itemsign.sign.1"))) {
+		if(!(p.hasPermission("itemsign.sign"))) {
 			p.sendMessage(plugin.getPrefix() + "§4Dafür hast du keine Berechtigung!");
 			return false;
 		}
@@ -47,10 +50,10 @@ public class SignCommand implements CommandExecutor {
 			return false;
 		}
 		int permission = 1;
-		if(p.hasPermission("itemsign.sign.2")) {
+		if(p.hasPermission("itemsign.lines.2")) {
 			permission = 2;
 		}
-		if(p.hasPermission("itemsign.sign.3")) {
+		if(p.hasPermission("itemsign.lines.3")) {
 			permission = 3;
 		}
 		SignatureData data = plugin.getSignature(item);
@@ -135,6 +138,9 @@ public class SignCommand implements CommandExecutor {
 		if(p.hasPermission("itemsign.color.f")) {
 			text = text.replace("&f", "§f");
 		}
+		if(p.hasPermission("itemsign.color.hex")) {
+			text = translateHexCodes(text);
+		}
 		if(p.hasPermission("itemsign.format.bold")) {
 			text = text.replace("&l", "§l");
 		}
@@ -187,6 +193,19 @@ public class SignCommand implements CommandExecutor {
 		item.setItemMeta(meta);
 		p.sendMessage(plugin.getPrefix() + "§aDein Item wurde signiert!");
 		return true;
+	}
+
+	private String translateHexCodes (String text) {
+		Pattern pattern = Pattern.compile("&#[a-fA-F0-9]{6}");
+		Matcher matcher = pattern.matcher(text);
+
+		while(matcher.find()) {
+			ChatColor color = ChatColor.of(text.substring(matcher.start()+1, matcher.end()));
+			text = text.replace(text.substring(matcher.start(), matcher.end()), color.toString());
+			matcher = pattern.matcher(text);
+		}
+
+		return text;
 	}
 
 }
