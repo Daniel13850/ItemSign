@@ -20,6 +20,8 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ItemSign extends JavaPlugin {
     private FileConfiguration config;
@@ -36,7 +38,7 @@ public class ItemSign extends JavaPlugin {
                 in.close();
             }
             config = YamlConfiguration.loadConfiguration(file);
-            prefix = ChatColor.translateAlternateColorCodes('&', config.getString("prefix")) + "§r";
+            prefix = translateAllCodes(config.getString("prefix")) + "§r";
         } catch(IOException e) {
             e.printStackTrace();
             Bukkit.getPluginManager().disablePlugin(this);
@@ -98,5 +100,22 @@ public class ItemSign extends JavaPlugin {
             list.add(sign3);
         }
         return new SignatureData(list, date, author, uuid);
+    }
+
+    private String translateHexCodes (String text) {
+        Pattern pattern = Pattern.compile("&#[a-fA-F0-9]{6}");
+        Matcher matcher = pattern.matcher(text);
+
+        while(matcher.find()) {
+            net.md_5.bungee.api.ChatColor color = net.md_5.bungee.api.ChatColor.of(text.substring(matcher.start()+1, matcher.end()));
+            text = text.replace(text.substring(matcher.start(), matcher.end()), color.toString());
+            matcher = pattern.matcher(text);
+        }
+
+        return text;
+    }
+
+    private String translateAllCodes (String text) {
+        return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', translateHexCodes(text));
     }
 }

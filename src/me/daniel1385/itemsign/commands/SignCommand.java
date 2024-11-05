@@ -162,7 +162,7 @@ public class SignCommand implements CommandExecutor {
 			lore.add("§8" + s);
 		}
 		String date = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
-		String last = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("format").replace("{PLAYER}", p.getName()).replace("{DATE}", date));
+		String last = translateAllCodes(plugin.getConfig().getString("format").replace("{PLAYER}", p.getName()).replace("{DATE}", date));
 		lore.add(last);
 		meta.setLore(lore);
 		PersistentDataContainer cont = meta.getPersistentDataContainer();
@@ -206,6 +206,10 @@ public class SignCommand implements CommandExecutor {
 		}
 
 		return text;
+	}
+
+	private String translateAllCodes (String text) {
+		return ChatColor.translateAlternateColorCodes('&', translateHexCodes(text));
 	}
 
 }
