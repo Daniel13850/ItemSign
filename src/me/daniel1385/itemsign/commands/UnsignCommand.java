@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.daniel1385.itemsign.ItemSign;
-import me.daniel1385.itemsign.SignatureData;
+import me.daniel1385.itemsign.objects.SignatureData;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;

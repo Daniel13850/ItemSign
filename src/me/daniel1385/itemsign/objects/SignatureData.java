@@ -1,4 +1,4 @@
-package me.daniel1385.itemsign;
+package me.daniel1385.itemsign.objects;
 
 import java.util.List;
 
