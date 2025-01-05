@@ -12,7 +12,7 @@
  *
  * Violations will result in a ban of your plugin and account from bStats.
  */
-package me.daniel1385.itemsign;
+package me.daniel1385.itemsign.apis;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

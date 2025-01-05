@@ -1,20 +1,17 @@
 package me.daniel1385.itemsign;
 
+import me.daniel1385.itemsign.apis.Metrics;
 import me.daniel1385.itemsign.commands.SignCommand;
 import me.daniel1385.itemsign.commands.UnsignCommand;
 import me.daniel1385.itemsign.objects.SignatureData;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
